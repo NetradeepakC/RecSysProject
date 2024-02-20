@@ -141,15 +141,15 @@ def SVD(A):
         S = A.T @ A
         # k = np.linalg.matrix_rank(S)
         k = rank_of_matrix(S.copy())
-
+        
     # eigvals, eigvecs = np.linalg.eig(S) #NOT ALLOWED
-    # print(S)
+    print(S)
     eigvals, eigvecs = eig(S)
-    # print(eigvals)
+    print(eigvals)
     # Sort the eigenvectors by descending eigenvalues
     sorted_indices = np.argsort(eigvals)[::-1]
     eigvals = eigvals[sorted_indices]
-    eigvecs = eigvecs[:, sorted_indices]
+    eigvecs = eigvecs[:,sorted_indices]
 
     # Compute the singular values and their reciprocals
     s = np.sqrt(eigvals)
@@ -160,19 +160,19 @@ def SVD(A):
 
     # Compute the left and right singular vectors
     # if(A.shape[0] > A.shape[1]):
-    if (A.shape[0] > A.shape[1]):
+    if(A.shape[0] > A.shape[1]):
         U = np.dot(A, np.dot(eigvecs, s_inv))
         V_T = eigvecs.T
-        if (len(s) != V_T.shape[0]):
-            V_T = V_T[:len(s) - V_T.shape[0], :]
+        if(len(s) != V_T.shape[0]): V_T = V_T[:len(s) - V_T.shape[0], :] 
 
     else:
         U = eigvecs
         V_T = np.dot(s_inv, np.dot(U.T, A))
-        if (len(s) != U.shape[1]):
-            U = U[:, :len(s) - U.shape[1]]
+        if(len(s) != U.shape[1]): U = U[:, :len(s) - U.shape[1]]
 
-    # else:
+
+    
+    # else: 
     #     V_T = np.dot(s_inv, np.dot(eigvecs, A))
     #     U = eigvecs.T
     #     if(len(s) != V_T.shape[0]): V_T = V_T[:len(s) - V_T.shape[0], :]
@@ -192,7 +192,7 @@ def SVD(A):
 
 def ReducedSVD(A, threshold=0, to_remove=0):
     U, s, sigma, V_trans = SVD(A)
-    # print(s)
+    print(s)
     # While converting to python code we will convert into GUI asking-
     #       - Removal based on:-
     #       - 1. Hyper parameter
@@ -201,7 +201,7 @@ def ReducedSVD(A, threshold=0, to_remove=0):
     # Removal based on hyper parameter
     if (to_remove < len(s) and to_remove > 0):
         s = s[:-to_remove]
-        # print(s)
+        print(s)
         U = U[:, :-to_remove]
         V_trans = V_trans[:-to_remove, :]
         sigma = sigma[:-to_remove, :-to_remove]
@@ -213,7 +213,7 @@ def ReducedSVD(A, threshold=0, to_remove=0):
     # Removal based on threshold
     if (threshold < s[0] and threshold > 0):
         s = s[s >= threshold]
-        # print(s)
+        print(s)
         U = U[:, :len(s)]
         V_trans = V_trans[:len(s), :]
         sigma = sigma[:len(s), :len(s)]
