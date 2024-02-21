@@ -9,4 +9,6 @@ def cosine_sim(vector1, vector2):
     norm_vector2 = np.linalg.norm(vector2)
 
     cosine_similarity = dot_product / (norm_vector1 * norm_vector2)
+    
+    return cosine_similarity
 
